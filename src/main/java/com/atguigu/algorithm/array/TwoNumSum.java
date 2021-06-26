@@ -19,15 +19,16 @@ public class TwoNumSum {
     public static void main(String[] args) {
         getIndex(new int[]{23,12,47,42,69,84},126);
     }
-    public static void getIndex(int[] arr,int target){
+    public static int[] getIndex(int[] arr,int target){
         Map<Integer,Integer> map = new HashMap<>();
         for (int i = 0; i < arr.length; i++) {
             int temp = target - arr[i];
             if (map.containsKey(temp)){
                 System.out.println("[" + map.get(temp) + "," + i + "]");
-                return;
+                return new int[]{map.get(temp),i};
             }
             map.put(arr[i],i);
         }
+        return null;
     }
 }
