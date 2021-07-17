@@ -9,12 +9,13 @@ import java.util.Arrays;
 
 public class Arrangement {
     /**
+     * leecode 31. 下一个排列
      *实现获取 下一个排列 的函数，算法需要将给定数字序列重新排列成字典序中下一个更大的排列。()
      * 如果不存在下一个更大的排列，则将数字重新排列成最小的排列（即升序排列）。
      * 必须 原地 修改，只允许使用额外常数空间。
      */
     public static void main(String[] args) {
-        arrangement(new int[]{1,3,2});
+        arrangement(new int[]{1,3,2,5,8,3,1});
     }
 
     // 给定一个数组,求下一个大的排列(把数组看成多位数，即求比他大的下一个多位数排列)

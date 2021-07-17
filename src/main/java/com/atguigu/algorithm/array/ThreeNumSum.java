@@ -69,7 +69,7 @@ public class ThreeNumSum {
         return result;
     }
 
-    /** 优化 双指针法 {2， 4， 1， 6， 8， 3， 6}*/
+    /** 优化 双指针法 {2， 4， 1， 6， 8， 3， 6} 要求数组已排序*/
 
     public static List<List<Integer>> twoPointer(int[] arr,int target){
         List<List<Integer>> result = new ArrayList<>();
