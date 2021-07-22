@@ -1,5 +1,10 @@
 package com.atguigu.algorithm.string;
 
+import java.util.HashMap;
+import java.util.HashSet;
+import java.util.Set;
+import java.util.Stack;
+
 /**
  * @author: liqi
  * @create 2021-07-17 18:03
@@ -14,6 +19,8 @@ public class DuplicateChar {
         System.out.println(s2.substring(2));
         System.out.println(duplicateChar.duplicate(s1));
         System.out.println(duplicateChar.duplicate(s2));
+        System.out.println(duplicateChar.duplicate3(s1));
+        System.out.println(duplicateChar.duplicate3(s2));
     }
 
     /**
@@ -55,6 +62,65 @@ public class DuplicateChar {
         }
         // 遍历结束，position位置的字母就是结果中最左侧的元素
         return s.charAt(position) + duplicate(s.substring(position+1).replaceAll(s.charAt(position) + "", ""));
+    }
+
+    // 贪心策略的优化(内存占用高)
+    public String duplicate2(String s) {
+
+        if (s.length() == 0) return "";
+        // position 记为当前最左侧的字符
+        int position = 0;
+        // 定义一个数组保存每个字符出现的频率
+        int[] arr = new int[26];
+        for (int i = 0; i < s.length(); i++) {
+            arr[s.charAt(i)-'a'] ++;
+        }
+        for (int i = 0; i < s.length(); i++) {
+            // 先判断是否小于 position 位置的数
+            if (s.charAt(i) < s.charAt(position)){
+                position = i;
+            }
+            // 频率只剩下一次就直接退出
+            if (--arr[s.charAt(i)-'a'] == 0){
+                break;
+            }
+        }
+        return s.charAt(position) + duplicate2(s.substring(position+1).replaceAll(s.charAt(position) + "",""));
+    }
+    // 使用栈数据结构优化(最优)
+    public String duplicate3(String s) {
+
+        Stack<Character> stack = new Stack<>();
+        // 保存入栈的元素
+        Set<Character> set = new HashSet<>();
+
+        // 保存元素在字符串最后出现的索引
+        HashMap<Character, Integer> map = new HashMap<>();
+        for (int i = 0; i < s.length(); i++) {
+            map.put(s.charAt(i),i);
+        }
+
+        // 遍历字符串，判断每个字符是否需要入栈
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            // 没有入过栈,直接入栈
+            if (!set.contains(c)){
+                // 入栈之前判断栈顶元素可否被当前元素替换
+                while (!stack.isEmpty() && c < stack.peek() && map.get(stack.peek()) > i){
+                    // 弹出栈顶元素
+                    set.remove(stack.pop());
+                }
+                stack.push(c);
+                set.add(c);
+            }
+
+        }
+        // 将栈元素保存为字符串输出
+        StringBuilder builder = new StringBuilder();
+        for (Character character : stack) {
+            builder.append(character.charValue());
+        }
+        return builder.toString();
     }
 
 }
